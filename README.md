@@ -2,6 +2,8 @@ Pystat is a multi threaded thermostat written in Python.
 Functionality is implemented with seperate threads, which use threadsafe utility
 classes to communicate.
 
+Screen shots are avaiable on Imgur (http://imgur.com/a/7vkZO)
+
 This project is inspired by the Rubustat software
 (https://github.com/wywin/Rubustat) created by Wyatt Winters and for my hardware
 I followed the specifications detailed in Nich Fugal's blog post
