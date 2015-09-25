@@ -49,17 +49,23 @@ class ThermostatWeb(threading.Thread):
         acRunning = "ac" in self.configuration.running
         fanRunning = "fan" in self.configuration.running
 
-        # get current weather data
-        currentWeather = self.weather.current_weather()
-        currentWeatherTemp = currentWeather['temperature']
-        currentWeatherSummary = currentWeather['summary']
 
-        # get daily weather
+        # get weather
+        currentWeather = self.weather.current_weather()
         today = self.weather.today_forecast()
-        todaySummary = today['summary']
-        todayMax = today['apparentTemperatureMax']
-        todayMin = today['apparentTemperatureMin']
-        todayPrecipProbability = today['precipProbability']
+
+        # handle a lack of weather api data
+        if currentWeather is None or today is None:
+            currentWeatherTemp = currentWeatherSummary = todaySummary = todayMax =\
+                todayMin = todayPrecipProbability = None
+        else:
+            currentWeatherTemp = currentWeather['temperature']
+            currentWeatherSummary = currentWeather['summary']
+
+            todaySummary = today['summary']
+            todayMax = today['apparentTemperatureMax']
+            todayMin = today['apparentTemperatureMin']
+            todayPrecipProbability = today['precipProbability']
 
         # check if we should include 'index.html' in the function call
         if 'update' == type:

@@ -88,11 +88,58 @@
             form.submit();
         }
 
+        function UpdateWeather(currentWeatherTemp, currentWeatherSummary, todaySummary,
+                               todayMax, todayMin, todayPrecipProbability) {
+            weatherPanel = $("#weatherPanel")
+            weatherUnavailable = $("#weatherUnavailable")
+
+            if (null === currentWeatherTemp || null === currentWeatherSummary ||
+                null === todaySummary || null === todayMax ||
+                null === todayMin || null === todayPrecipProbability) {
+
+                weatherPanel.removeClass("weatherPanel")
+                weatherPanel.addClass("hidden");
+
+                weatherUnavailable.addClass("weatherPanel")
+                weatherUnavailable.removeClass("hidden");
+            } else {
+                weatherUnavailable.removeClass("weatherPanel")
+                weatherUnavailable.addClass("hidden");
+
+                weatherPanel.addClass("weatherPanel")
+                weatherPanel.removeClass("hidden");
+
+                // update values
+                $("#currentWeatherTemp").text(currentWeatherTemp);
+                $("#currentWeatherSummary").text(currentWeatherSummary);
+                $("#todayWeatherSummary").text(todaySummary);
+                $("#todayWeatherHigh").text(todayMax);
+                $("#todayWeatherLow").text(todayMin);
+            }
+        }
+
         $( document ).ready(function () {
             $("#contentBody").width($("#targetTable").width());
             $("#temperatureTable").width($("#targetTable").width());
 
             $("#weatherPanel").width($("#targetTable").width());
+            $("#weatherUnavailable").width($("#targetTable").width());
+
+            currentWeatherTemp = "{{ currentWeatherTemp }}";
+            currentWeatherSummary = "{{ currentWeatherSummary }}";
+            todaySummary = "{{ todaySummary }}";
+            todayMax = "{{ todayMax }}";
+            todayMin = "{{ todayMin }}";
+            todayPrecipProbability = "{{ todayPrecipProbability }}";
+
+            if ("None" === currentWeatherTemp || "None" === currentWeatherSummary ||
+                "None" === todaySummary || "None" === todayMax ||
+                "None" === todayMin || "None" === todayPrecipProbability) {
+
+                currentWeatherTemp = null;
+            }
+            UpdateWeather(currentWeatherTemp, currentWeatherSummary, todaySummary,
+                          todayMax, todayMin, todayPrecipProbability);
 
             {% if "heat" == currentMode %}
                 $("#heatButton").addClass("red");
@@ -125,9 +172,6 @@
                     indoorTemperature = data["currentTemperature"];
                     currentTarget = data["currentTarget"];
 
-                    currentWeatherTemp = data["weatherTemperature"]
-                    currentWeatherSummary = data["weatherSummary"]
-
                     $("#indoorTemperature").text(indoorTemperature +
                         String.fromCharCode(176));
                     $("#targetTemperature").text(currentTarget +
@@ -150,6 +194,14 @@
                     }
 
                     // update weather panel
+                    currentWeatherTemp = data["currentWeatherTemp"];
+                    currentWeatherSummary = data["currentWeatherSummary"];
+                    todaySummary = data["todaySummary"];
+                    todayMax = data["todayMax"];
+                    todayMin = data["todayMin"];
+                    todayPrecipProbability = data["todayPrecipProbability"];
+                    UpdateWeather(currentWeatherTemp, currentWeatherSummary, todaySummary,
+                                  todayMax, todayMin, todayPrecipProbability);
                 });
             }, 20000);
         });
@@ -278,5 +330,6 @@
             </tr>
         </table>
     </div>
+    <div id="weatherUnavailable" class="weatherPanel center hidden"></div>
 </body>
 </html>

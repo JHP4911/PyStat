@@ -15,7 +15,11 @@ class ThermostatWeather():
         # set up to handle getting daily weather data
         self.lastCheck = time.time()
         self.currentLock = threading.Lock()
-        self.weatherData = self.get_current_data()
+
+        try:
+            self.weatherData = self.get_current_data()
+        except:
+            self.weatherData = None
 
     def get_current_data(self):
         # get current time in seconds
@@ -45,7 +49,7 @@ class ThermostatWeather():
             n = 3600 # 1 hour
 
         # cache data and only update at intervals
-        if n <= time.time() - self.lastCheck:
+        if n <= int(time.time() - self.lastCheck):
             self.currentLock.acquire()
 
             self.weatherData = self.get_current_data()
@@ -56,24 +60,30 @@ class ThermostatWeather():
         return self.weatherData
 
     def current_weather(self):
-        # extract current weather data from CurrentData
-        currently = self.CurrentData('current')['currently']
+        try:
+            # extract current weather data from CurrentData
+            currently = self.CurrentData('current')['currently']
 
-        # return the apparent temperature and a summary
-        return {
-            'temperature': round(currently['apparentTemperature'], 1),
-            'summary': currently['summary']
-        }
+            # return the apparent temperature and a summary
+            return {
+                'temperature': round(currently['apparentTemperature'], 1),
+                'summary': currently['summary']
+            }
+        except:
+            return None;
 
     def today_forecast(self):
-        # extract today's forcast from CurrentData
-        today = self.CurrentData('today')['daily']
+        try:
+            # extract today's forcast from CurrentData
+            today = self.CurrentData('today')['daily']
 
-        # return a summary of today's weather, the apparent high and low, and the
-        # probability of precipitation
-        return {
-            'summary': today['summary'],
-            'apparentTemperatureMax': round(today['apparentTemperatureMax'], 1),
-            'apparentTemperatureMin': round(today['apparentTemperatureMin'], 1),
-            'precipProbability': today['precipProbability'],
-        }
+            # return a summary of today's weather, the apparent high and low, and the
+            # probability of precipitation
+            return {
+                'summary': today['summary'],
+                'apparentTemperatureMax': round(today['apparentTemperatureMax'], 1),
+                'apparentTemperatureMin': round(today['apparentTemperatureMin'], 1),
+                'precipProbability': today['precipProbability'],
+            }
+        except:
+            return None;
