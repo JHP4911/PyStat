@@ -70,7 +70,7 @@ class ThermostatWeather():
                 'summary': currently['summary']
             }
         except:
-            return None;
+            return None
 
     def today_forecast(self):
         try:
@@ -86,4 +86,4 @@ class ThermostatWeather():
                 'precipProbability': today['precipProbability'],
             }
         except:
-            return None;
+            return None

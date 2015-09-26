@@ -8,8 +8,8 @@
           href="{{ url_for('static', filename='semantic.min.css') }}">
     <link rel="stylesheet" type="text/css"
           href="{{ url_for('static', filename='style.css') }}">
-    <script src="{{ url_for('static', filename='semantic.min.js') }}"></script>
     <script src="{{ url_for('static', filename='jquery-2.1.4.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='semantic.min.js') }}"></script>
 
     <script type="text/javascript">
         $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -110,20 +110,24 @@
                 weatherPanel.removeClass("hidden");
 
                 // update values
-                $("#currentWeatherTemp").text(currentWeatherTemp);
+                $("#currentWeatherTemp").text(currentWeatherTemp + deg);
                 $("#currentWeatherSummary").text(currentWeatherSummary);
                 $("#todayWeatherSummary").text(todaySummary);
-                $("#todayWeatherHigh").text(todayMax);
-                $("#todayWeatherLow").text(todayMin);
+                $("#todayWeatherHigh").text(todayMax + deg);
+                $("#todayWeatherLow").text(todayMin + deg);
             }
         }
 
         $( document ).ready(function () {
-            $("#contentBody").width($("#targetTable").width());
-            $("#temperatureTable").width($("#targetTable").width());
+            width = $("#targetTable").width();
 
-            $("#weatherPanel").width($("#targetTable").width());
-            $("#weatherUnavailable").width($("#targetTable").width());
+            $("#contentBody").width(width);
+            $("#temperatureTable").width(width);
+            $("#weatherPanel").width(width);
+            $("#weatherUnavailable").width(width);
+
+            $("#wp1").width(width / 2);
+            $("#wp2").width(width / 2);
 
             currentWeatherTemp = "{{ currentWeatherTemp }}";
             currentWeatherSummary = "{{ currentWeatherSummary }}";
@@ -305,27 +309,32 @@
     <div id="weatherPanel" class="weatherPanel center">
         <table>
             <tr>
-                <td>
+                <th id="wp1"></th>
+                <th id="wp2"></th>
+            </tr>
+            <tr>
+                <td class="pad">
                     <h2>Currently:</h2>
                 </td>
-                <td>
-                    <h2 id="todayWeatherSummary">{{ todaySummary }}</h2>
+                <td class="pad">
+                    <h2>Today:</h2>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td class="pad">
                     <h2 id="currentWeatherTemp">{{ currentWeatherTemp }}&deg;</h2>
                 </td>
-                <td>
-                    <h2 id="todayWeatherHigh">{{ todayMax }}&deg;</h2>
+                <td class="pad">
+                    <h2 id="todayWeatherTemp">
+                        {{ todayMax }}&deg; / {{ todayMin }}&deg;</h2>
                 </td>
             </tr>
             <tr>
-                <td>
+                <td class="pad">
                     <h2 id="currentWeatherSummary">{{ currentWeatherSummary }}</h2>
                 </td>
-                <td>
-                    <h2 id="todayWeatherLow">{{ todayMin }}&deg;</h2>
+                <td class="pad">
+                    <h2 id="todayWeatherSummary">{{ todaySummary }}</h2>
                 </td>
             </tr>
         </table>

@@ -28,6 +28,9 @@
 
 .hidden {
     visibility: hidden;
-/*    min-height: 0px;*/
     max-height: 0px;
+}
+
+.pad {
+    padding: 10px;
 }

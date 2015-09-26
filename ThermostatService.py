@@ -2,7 +2,9 @@ __author__ = 'matt'
 
 import threading
 import time
-import GPIOManager
+from GPIOManager import TestGPIOManager
+# from RaspberryPiManager import RaspberryPiManager
+# from BeagleBoneBlackGPIOManager import BeagleBoneBlackGPIOManager
 
 class ThermostatService(threading.Thread):
     def __init__(self, threadId, name, configuration, fileManager, temperatureReader):
@@ -14,7 +16,9 @@ class ThermostatService(threading.Thread):
         self.temperatureReader = temperatureReader
         self.currentMode = "off"
         self.currentTemperature = 70.0
-        self.manager = GPIOManager.TestGPIOManager(configuration)
+        self.manager = TestGPIOManager(configuration)
+        # self.manager = RaspberryPiManager(configuration)
+        # self.manager = BeagleBoneBlackGPIOManager(configuration)
 
     def run(self):
         print("Starting service")
