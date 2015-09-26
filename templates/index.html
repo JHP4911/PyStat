@@ -110,11 +110,10 @@
                 weatherPanel.removeClass("hidden");
 
                 // update values
-                $("#currentWeatherTemp").text(currentWeatherTemp + deg);
+                $("#currentWeatherTemp").text(currentWeatherTemp + '\xB0');
                 $("#currentWeatherSummary").text(currentWeatherSummary);
                 $("#todayWeatherSummary").text(todaySummary);
-                $("#todayWeatherHigh").text(todayMax + deg);
-                $("#todayWeatherLow").text(todayMin + deg);
+                $("#todayWeatherTemp").text(todayMax + '\xB0 / ' + todayMin + '\xB0');
             }
         }
 
@@ -322,19 +321,18 @@
             </tr>
             <tr>
                 <td class="pad">
-                    <h2 id="currentWeatherTemp">{{ currentWeatherTemp }}&deg;</h2>
+                    <h2 id="currentWeatherTemp"></h2>
                 </td>
                 <td class="pad">
-                    <h2 id="todayWeatherTemp">
-                        {{ todayMax }}&deg; / {{ todayMin }}&deg;</h2>
+                    <h2 id="todayWeatherTemp"></h2>
                 </td>
             </tr>
             <tr>
                 <td class="pad">
-                    <h2 id="currentWeatherSummary">{{ currentWeatherSummary }}</h2>
+                    <h2 id="currentWeatherSummary"></h2>
                 </td>
                 <td class="pad">
-                    <h2 id="todayWeatherSummary">{{ todaySummary }}</h2>
+                    <h2 id="todayWeatherSummary"></h2>
                 </td>
             </tr>
         </table>
