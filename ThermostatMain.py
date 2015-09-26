@@ -12,8 +12,8 @@ from ThermostatWeather import ThermostatWeather
 def main():
 
     # magic constants
-    configurationFileName = "../../PyStat/thermostat.conf"
-    #configurationFileName = "thermostat.conf"
+    #configurationFileName = "../../PyStat/thermostat.conf"
+    configurationFileName = "thermostat.conf"
     currentFileName = "current.set"
     scheduleFileName = "schedule.conf"
 
