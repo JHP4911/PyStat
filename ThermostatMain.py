@@ -8,6 +8,7 @@ from ThermostatScheduler import ThermostatScheduler
 from ThermostatWeb import ThermostatWeb
 from TemperatureReader import TemperatureReader
 from ThermostatWeather import ThermostatWeather
+from ThermostatDatabase import ThermostatDatabase
 
 def main():
 
@@ -16,6 +17,7 @@ def main():
     configurationFileName = "thermostat.conf"
     currentFileName = "current.set"
     scheduleFileName = "schedule.conf"
+    databaseName = "pystat.db"
 
     # make the static utility classes
     fileManager = FileManager(configurationFileName, currentFileName, scheduleFileName)
@@ -23,6 +25,9 @@ def main():
     temperatureReader = TemperatureReader()
     weather = ThermostatWeather(configuration.weatherAPIKey, configuration.weatherurl,
                                 configuration.latlong, configuration.weatherFlags)
+
+    # create the database utility class
+    databaseHelper = ThermostatDatabase(databaseName)
 
     if configuration is None:
         print("Configuration file could not be read.")
@@ -53,6 +58,13 @@ def main():
     web.start()
 
     while True:
+        current = fileManager.read_current()
+        databaseHelper.insert_current_data(temperatureReader.CurrentTemperature(),
+                                           current["temperature"], current["mode"],
+                                           ("heat" in configuration.running),
+                                           ("ac" in configuration.running),
+                                           ("fan" in configuration.running))
+
         print("Polling threads")
         if not service.is_alive():
             print("PANIC SERVICE IS DEAD")
