@@ -13,3 +13,7 @@ Depends upon Flask for the web interface and whatever libraries are needed for
 the device in use. I use and have implemented controls for a Raspberry Pi with
 RPi.GPIO, however adding support for another device is as simple as implementing
 a new GPIOManager class and swapping it in.
+
+Added a database component utilizing sqlite3, which logs the time, the indoor,
+outdoor (if available) and target temperatures, the target mode and what
+components are currently running.
