@@ -8,6 +8,7 @@ CREATE_TABLE_current_data = 'CREATE TABLE current_data' \
                             '(time                  INTEGER PRIMARY KEY,' \
                             ' indoor_temperature    REAL NOT NULL,' \
                             ' target_temperature    REAL NOT NULL,' \
+                            ' outdoor_temperature   REAL,' \
                             ' target_mode           TEXT NOT NULL,' \
                             ' heat_running          INTEGER NOT NULL,' \
                             ' ac_running            INTEGER NOT NULL,' \
@@ -51,8 +52,9 @@ class ThermostatDatabase():
             return True
 
     # takes current data in and logs it into the database
-    def insert_current_data(self, indoorTemperature, targetTemperature, targetMode,
-                            heatRunning, acRunning, fanRunning):
+    def insert_current_data(self, indoorTemperature, targetTemperature,
+                            outdoorTemperature, targetMode, heatRunning, acRunning,
+                            fanRunning):
 
         if self.check_current_table():
             self.create()
@@ -64,15 +66,14 @@ class ThermostatDatabase():
         acRunning = '1' if acRunning else '0'
         fanRunning = '1' if fanRunning else '0'
 
-        sql = 'INSERT INTO current_data VALUES(' + time.strftime("%s") + ', ' +\
-              indoorTemperature + ', ' + targetTemperature + ', \'' + targetMode + \
-              '\', ' + heatRunning + ', ' + acRunning + ', ' + fanRunning + ')'
+        sql = 'INSERT INTO current_data VALUES( ?, ?, ?, ?, ?, ?, ?, ?)'
 
         try:
             connection = sqlite3.connect(self.databaseName)
 
             c = connection.cursor()
-            c.execute(sql)
+            c.execute(sql, (time.strftime("%s"), indoorTemperature, targetTemperature,
+                      outdoorTemperature, targetMode, heatRunning, acRunning, fanRunning))
 
             connection.commit()
         finally:

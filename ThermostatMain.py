@@ -59,8 +59,16 @@ def main():
 
     while True:
         current = fileManager.read_current()
+
+        currentWeather = weather.current_weather()
+        outdoorTemperature = None
+
+        if currentWeather is not None:
+            outdoorTemperature = currentWeather['temperature']
+
         databaseHelper.insert_current_data(temperatureReader.CurrentTemperature(),
-                                           current["temperature"], current["mode"],
+                                           current["temperature"], outdoorTemperature,
+                                           current["mode"],
                                            ("heat" in configuration.running),
                                            ("ac" in configuration.running),
                                            ("fan" in configuration.running))
