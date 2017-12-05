@@ -97,4 +97,4 @@ class ThermostatWeb(threading.Thread):
                         todayPrecipProbability=todayPrecipProbability)
 
     def run(self):
-        self.app.run()
+        self.app.run(host='0.0.0.0')
