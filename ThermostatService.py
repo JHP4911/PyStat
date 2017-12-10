@@ -7,7 +7,7 @@ from RaspberryPiManager import RaspberryPiManager
 # from BeagleBoneBlackGPIOManager import BeagleBoneBlackGPIOManager
 
 # Fan keep running time in seconds
-FANOUT = 10
+FANOUT = 300
 
 class ThermostatService(threading.Thread):
     def __init__(self, threadId, name, configuration, fileManager, temperatureReader):
