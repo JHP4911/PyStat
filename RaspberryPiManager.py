@@ -4,7 +4,7 @@ import RPi.GPIO as rpiGPIO
 from GPIOManager import GPIOManager
 
 # Due to the annoying fact that on HIGH, relay is off, vice versa.
-# Please comment out these two lines if you are testing with LEDs,
+# Please reverse these two lines if you are testing with LEDs,
 # Otherwise you'll get reverse light signal.
 RELAY_ON = False 
 RELAY_OFF = True
