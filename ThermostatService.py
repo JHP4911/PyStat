@@ -2,9 +2,12 @@ __author__ = 'matt'
 
 import threading
 import time
-from GPIOManager import TestGPIOManager
-# from RaspberryPiManager import RaspberryPiManager
+# from GPIOManager import TestGPIOManager
+from RaspberryPiManager import RaspberryPiManager
 # from BeagleBoneBlackGPIOManager import BeagleBoneBlackGPIOManager
+
+# Fan keep running time in seconds
+FANOUT = 10
 
 class ThermostatService(threading.Thread):
     def __init__(self, threadId, name, configuration, fileManager, temperatureReader):
@@ -16,8 +19,8 @@ class ThermostatService(threading.Thread):
         self.temperatureReader = temperatureReader
         self.currentMode = "off"
         self.currentTemperature = 70.0
-        self.manager = TestGPIOManager(configuration)
-        # self.manager = RaspberryPiManager(configuration)
+        # self.manager = TestGPIOManager(configuration)
+        self.manager = RaspberryPiManager(configuration)
         # self.manager = BeagleBoneBlackGPIOManager(configuration)
 
     def run(self):
@@ -26,7 +29,7 @@ class ThermostatService(threading.Thread):
         self.turn_off_ac()
 
         #comment for testing
-        #time.sleep(300)
+        #time.sleep(FANOUT)
 
         self.turn_off_fan()
 
@@ -58,7 +61,7 @@ class ThermostatService(threading.Thread):
                             elif "ac" == self.currentMode:
                                 self.turn_off_ac()
 
-                            time.sleep(300)
+                            time.sleep(FANOUT)
                             self.turn_off_fan()
 
                     elif "fan" == newMode:
@@ -68,14 +71,14 @@ class ThermostatService(threading.Thread):
                         elif "ac" == self.currentMode:
                             self.turn_off_ac()
 
-                        time.sleep(300)
+                        time.sleep(FANOUT)
 
                     elif "heat" == self.currentMode:
                         self.turn_off_heat()
-                        time.sleep(300)
+                        time.sleep(FANOUT)
                     elif "ac" == self.currentMode:
                         self.turn_off_ac()
-                        time.sleep(300)
+                        time.sleep(FANOUT)
             except:
                 #TODO: handle an error in mode changing
                 # error! maybe try handling at some point, but first just turn off
@@ -101,7 +104,7 @@ class ThermostatService(threading.Thread):
                         self.configuration.activeHysteresis:
                     if "heat" in self.configuration.running:
                         self.turn_off_heat()
-                        time.sleep(300)
+                        time.sleep(FANOUT)
                         self.turn_off_fan()
 
             elif "ac" == self.currentMode:

@@ -14,7 +14,7 @@ class TemperatureReader():
     def get_current_temperature(self):
         # check thermometer
         try:
-            f = open("/sys/bus/w1/devices/28-0000041117ab/w1_slave")
+            f = open("/sys/bus/w1/devices/28-0417837d5cff/w1_slave")
             f.readline()
             line = f.readline()
             split = line.split("=")
