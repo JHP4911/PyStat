@@ -23,6 +23,7 @@ def main():
     fileManager = FileManager(configurationFileName, currentFileName, scheduleFileName)
     configuration = fileManager.read_configuration()
     temperatureReader = TemperatureReader()
+    print("Getting weather data:")
     weather = ThermostatWeather(configuration.weatherAPIKey, configuration.weatherurl,
                                 configuration.latlong, configuration.weatherFlags)
 

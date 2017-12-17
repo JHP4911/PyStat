@@ -21,6 +21,9 @@ class ThermostatWeather():
         except:
             self.weatherData = None
 
+        print("Weather Data:")
+        print(self.weatherData)
+
     def get_current_data(self):
         # get current time in seconds
         currentTime = time.strftime('%s')
@@ -28,6 +31,8 @@ class ThermostatWeather():
         # create the url to fetch from provided settings
         url = self.url + "/" + self.apiKey + "/" + self.latlong + "," +\
               currentTime + "?" + self.weatherFlags
+        print("Weather URL:")
+        print(url)
 
         # request data
         current = urllib.request.urlopen(url).read()
